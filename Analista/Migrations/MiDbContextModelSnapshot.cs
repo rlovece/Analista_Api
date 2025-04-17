@@ -3,7 +3,6 @@ using System;
 using Analista.Persintencia;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,11 +11,9 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Analista.Migrations
 {
     [DbContext(typeof(MiDbContext))]
-    [Migration("20250410185353_addSeed")]
-    partial class addSeed
+    partial class MiDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -252,7 +249,7 @@ namespace Analista.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("IdCasodeUso")
+                    b.Property<Guid>("IdCasoDeUso")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("IdRequisito")
@@ -260,7 +257,7 @@ namespace Analista.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdCasodeUso");
+                    b.HasIndex("IdCasoDeUso");
 
                     b.HasIndex("IdRequisito");
 
@@ -468,7 +465,7 @@ namespace Analista.Migrations
                 {
                     b.HasOne("Analista.Models.CasoDeUso", "CasoDeUso")
                         .WithMany("RequisitoPorCasoDeUso")
-                        .HasForeignKey("IdCasodeUso")
+                        .HasForeignKey("IdCasoDeUso")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

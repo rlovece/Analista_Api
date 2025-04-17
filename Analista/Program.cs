@@ -14,11 +14,6 @@ var database = Environment.GetEnvironmentVariable("DB_NAME");
 var user = Environment.GetEnvironmentVariable("DB_USER");
 var password = Environment.GetEnvironmentVariable("DB_PASSWORD");
 
-Console.WriteLine($"Host: {host}");
-Console.WriteLine($"Port: {port}");
-Console.WriteLine($"Database: {database}");
-Console.WriteLine($"User: {user}");
-
 // Armar cadena de conexión para PostgreSQL
 var connectionString = $"Host={host};Port={port};Database={database};Username={user};Password={password}";
 

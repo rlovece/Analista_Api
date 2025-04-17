@@ -1,0 +1,54 @@
+﻿using Analista.Models;
+using Analista.Persintencia;
+using Analista.Repositorios.Interfaces;
+using Microsoft.EntityFrameworkCore.Storage;
+
+
+namespace Analista.Repositorios
+{
+    public class UnidadDeTrabajo : IUnidadDeTrabajo
+    {
+        public IRepositorio<SubTipoRequisito> _subTipoRequisitoRepositorio { get;  }
+        public IRepositorio<TipoRequisito> _TipoRequisitoRepositorio { get;  }
+        private MiDbContext _context;
+        private IDbContextTransaction _transaction;
+
+        public UnidadDeTrabajo (
+            IRepositorio<SubTipoRequisito> subTipoRequisitoRepositorio,
+            IRepositorio<TipoRequisito> tipoRequisitoRepositorio,
+            MiDbContext context, 
+            IDbContextTransaction transaction)
+        {
+            _subTipoRequisitoRepositorio = subTipoRequisitoRepositorio;
+            _context = context;
+            _transaction = transaction;
+        }
+
+        public async Task BeginTransactionAsync()
+        {
+            _transaction = await _context.Database.BeginTransactionAsync();
+        }
+
+        public async Task CommitAsync()
+        {
+            await _transaction?.CommitAsync();
+            _transaction?.Dispose();
+        }
+
+        public void Dispose()
+        {
+            _context.DisposeAsync();
+        }
+
+        public async void GuardarCambiosAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RollbackAsync()
+        {
+            await _transaction?.RollbackAsync();
+            _transaction?.Dispose();
+        }
+    }
+}

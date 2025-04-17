@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Analista.Migrations
 {
     [DbContext(typeof(MiDbContext))]
-    [Migration("20250409144752_Inicial")]
+    [Migration("20250414164052_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -252,7 +252,7 @@ namespace Analista.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("IdCasodeUso")
+                    b.Property<Guid>("IdCasoDeUso")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("IdRequisito")
@@ -260,7 +260,7 @@ namespace Analista.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdCasodeUso");
+                    b.HasIndex("IdCasoDeUso");
 
                     b.HasIndex("IdRequisito");
 
@@ -376,6 +376,24 @@ namespace Analista.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TiposRequisito");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000001"),
+                            Activo = true,
+                            FechaCreacion = new DateTime(2024, 4, 10, 14, 30, 0, 0, DateTimeKind.Utc),
+                            Nombre = "Requisito No Funcional",
+                            Orden = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000002"),
+                            Activo = true,
+                            FechaCreacion = new DateTime(2024, 4, 10, 14, 30, 0, 0, DateTimeKind.Utc),
+                            Nombre = "Requisito Funcional",
+                            Orden = 2
+                        });
                 });
 
             modelBuilder.Entity("Analista.Models.ActorPorCasoDeUso", b =>
@@ -450,7 +468,7 @@ namespace Analista.Migrations
                 {
                     b.HasOne("Analista.Models.CasoDeUso", "CasoDeUso")
                         .WithMany("RequisitoPorCasoDeUso")
-                        .HasForeignKey("IdCasodeUso")
+                        .HasForeignKey("IdCasoDeUso")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

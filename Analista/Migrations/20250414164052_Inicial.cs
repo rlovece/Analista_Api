@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Analista.Migrations
 {
     /// <inheritdoc />
@@ -47,10 +49,10 @@ namespace Analista.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Nombre = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
                     Descripcion = table.Column<string>(type: "text", nullable: false),
-                    FechaCreacion = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     FechaModificacion = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    Nombre = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    FechaCreacion = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Activo = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -63,10 +65,10 @@ namespace Analista.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Nombre = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
                     Descripcion = table.Column<string>(type: "text", nullable: false),
-                    FechaCreacion = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     FechaModificacion = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    Nombre = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    FechaCreacion = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Activo = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -79,10 +81,10 @@ namespace Analista.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Nombre = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
                     Descripcion = table.Column<string>(type: "text", nullable: false),
-                    FechaCreacion = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     FechaModificacion = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    Nombre = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    FechaCreacion = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Activo = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -95,10 +97,10 @@ namespace Analista.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Nombre = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
                     Orden = table.Column<int>(type: "integer", nullable: false),
-                    FechaCreacion = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     FechaModificacion = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    Nombre = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    FechaCreacion = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Activo = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -111,9 +113,9 @@ namespace Analista.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdCasoDeUso = table.Column<Guid>(type: "uuid", nullable: false),
                     IdCondicion = table.Column<Guid>(type: "uuid", nullable: false),
-                    ActorId = table.Column<Guid>(type: "uuid", nullable: false)
+                    ActorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    IdCasoDeUso = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -137,9 +139,9 @@ namespace Analista.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdCasoDeUso = table.Column<Guid>(type: "uuid", nullable: false),
                     IdCondicion = table.Column<Guid>(type: "uuid", nullable: false),
-                    Tipo = table.Column<int>(type: "integer", nullable: false)
+                    Tipo = table.Column<int>(type: "integer", nullable: false),
+                    IdCasoDeUso = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -163,8 +165,8 @@ namespace Analista.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdCasoDeUso = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdCriterioDeAceptacion = table.Column<Guid>(type: "uuid", nullable: false)
+                    IdCriterioDeAceptacion = table.Column<Guid>(type: "uuid", nullable: false),
+                    IdCasoDeUso = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -188,8 +190,8 @@ namespace Analista.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdCasoDeUso = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdServicio = table.Column<Guid>(type: "uuid", nullable: false)
+                    IdServicio = table.Column<Guid>(type: "uuid", nullable: false),
+                    IdCasoDeUso = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -213,11 +215,11 @@ namespace Analista.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Nombre = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
                     Orden = table.Column<int>(type: "integer", nullable: false),
                     IdTipoRequisito = table.Column<Guid>(type: "uuid", nullable: false),
-                    FechaCreacion = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     FechaModificacion = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    Nombre = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    FechaCreacion = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Activo = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -236,14 +238,14 @@ namespace Analista.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Nombre = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
                     Descripcion = table.Column<string>(type: "text", nullable: false),
                     Orden = table.Column<int>(type: "integer", nullable: false),
                     IdSubTipoRequisito = table.Column<Guid>(type: "uuid", nullable: false),
-                    FechaCreacion = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     FechaModificacion = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    Activo = table.Column<bool>(type: "boolean", nullable: false),
-                    subTipoRequisitoId = table.Column<Guid>(type: "uuid", nullable: false)
+                    subTipoRequisitoId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Nombre = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    FechaCreacion = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Activo = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -261,15 +263,15 @@ namespace Analista.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdCasodeUso = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdRequisito = table.Column<Guid>(type: "uuid", nullable: false)
+                    IdRequisito = table.Column<Guid>(type: "uuid", nullable: false),
+                    IdCasoDeUso = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_RequisitosPorCasosDeUso", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RequisitosPorCasosDeUso_CasosDeUso_IdCasodeUso",
-                        column: x => x.IdCasodeUso,
+                        name: "FK_RequisitosPorCasosDeUso_CasosDeUso_IdCasoDeUso",
+                        column: x => x.IdCasoDeUso,
                         principalTable: "CasosDeUso",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -279,6 +281,15 @@ namespace Analista.Migrations
                         principalTable: "Requisitos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "TiposRequisito",
+                columns: new[] { "Id", "Activo", "FechaCreacion", "FechaModificacion", "Nombre", "Orden" },
+                values: new object[,]
+                {
+                    { new Guid("00000000-0000-0000-0000-000000000001"), true, new DateTime(2024, 4, 10, 14, 30, 0, 0, DateTimeKind.Utc), null, "Requisito No Funcional", 1 },
+                    { new Guid("00000000-0000-0000-0000-000000000002"), true, new DateTime(2024, 4, 10, 14, 30, 0, 0, DateTimeKind.Utc), null, "Requisito Funcional", 2 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -317,9 +328,9 @@ namespace Analista.Migrations
                 column: "subTipoRequisitoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RequisitosPorCasosDeUso_IdCasodeUso",
+                name: "IX_RequisitosPorCasosDeUso_IdCasoDeUso",
                 table: "RequisitosPorCasosDeUso",
-                column: "IdCasodeUso");
+                column: "IdCasoDeUso");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RequisitosPorCasosDeUso_IdRequisito",

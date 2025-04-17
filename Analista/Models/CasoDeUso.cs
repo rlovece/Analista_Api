@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
+using System.Text.Json.Serialization;
 
 namespace Analista.Models
 {
@@ -24,10 +25,19 @@ namespace Analista.Models
         [DefaultValue(true)]
         public Boolean Activo { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<CondicionPorCasoDeUso> CondicionesPorCasoDeUso { get; set; }
-        public virtual ICollection<CriterioDeAceptacionPorCasoDeUso> CriteriosDeAceptacionPorCasoDeUso { get; set;  } 
+
+        [JsonIgnore]
+        public virtual ICollection<CriterioDeAceptacionPorCasoDeUso> CriteriosDeAceptacionPorCasoDeUso { get; set;  }
+
+        [JsonIgnore]
         public virtual ICollection<ActorPorCasoDeUso> ActoresPorCasoDeUso { get; set; }
+
+        [JsonIgnore]
         public virtual ICollection<ServiciosPorCasoDeUso> ServiciosPorCasoDeUso { get; set; }
+
+        [JsonIgnore]
         public virtual ICollection<RequisitoPorCasoDeUso> RequisitoPorCasoDeUso { get; set; }
 
 
