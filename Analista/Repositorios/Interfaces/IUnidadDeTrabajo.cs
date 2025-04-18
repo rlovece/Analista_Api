@@ -8,7 +8,7 @@ namespace Analista.Repositorios.Interfaces
         IRepositorio<SubTipoRequisito> _subTipoRequisitoRepositorio { get; }
         IRepositorio<TipoRequisito> _TipoRequisitoRepositorio { get; }
 
-        void GuardarCambiosAsync();
+        Task GuardarCambiosAsync();
         void Dispose();
         Task BeginTransactionAsync();
         Task CommitAsync();

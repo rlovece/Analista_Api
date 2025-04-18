@@ -1,7 +1,12 @@
 using Analista.Middlewares;
 using Analista.Persintencia;
+using Analista.Repositorios.Interfaces;
+using Analista.Repositorios;
+using Analista.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Analista.Models;
+using Analista.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +25,23 @@ var connectionString = $"Host={host};Port={port};Database={database};Username={u
 // Registrar el DbContext con Npgsql
 builder.Services.AddDbContext<MiDbContext>(options =>
     options.UseNpgsql(connectionString));
+
+// Repositorios
+builder.Services.AddScoped<IRepositorio<Actor>, ActorRepositorio>();
+builder.Services.AddScoped<IRepositorio<CasoDeUso>, CasoDeUsoRepositorio>();
+builder.Services.AddScoped<IRepositorio<CondicionPorCasoDeUso>, CondicionPorCasoDeUsoRepositorio>();
+builder.Services.AddScoped<IRepositorio<Condicion>, CondicionRepositorio>();
+builder.Services.AddScoped<IRepositorio<CriterioDeAceptacion>, CriterioDeAcpetacionRepositorio>();
+builder.Services.AddScoped<IRepositorio<Requisito>, RequisitoRepositorio>();
+builder.Services.AddScoped<IRepositorio<Servicio>, ServicioRepositorio>();
+builder.Services.AddScoped<IRepositorio<SubTipoRequisito>, SubTipoRequisitoRepositorio>();
+builder.Services.AddScoped<IRepositorio<TipoRequisito>, TipoRequisitoRepositorio>();
+
+// Unidad de Trabajo
+builder.Services.AddScoped<IUnidadDeTrabajo, UnidadDeTrabajo>();
+
+// Servicios
+builder.Services.AddScoped<ITipoRequisitoService, TipoRequisitoService>();
 
 // Add services to the container.
 

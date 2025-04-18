@@ -33,8 +33,7 @@ namespace Analista.Repositorios
             IRepositorio<CriterioDeAceptacion> criterioDeAceptacionRepositorio,
             IRepositorio<Requisito> requisitoRepositorio,
             IRepositorio<Servicio> servicioRepositorio,
-            MiDbContext context, 
-            IDbContextTransaction transaction)
+            MiDbContext context)
         {
             _subTipoRequisitoRepositorio = subTipoRequisitoRepositorio;
             _TipoRequisitoRepositorio = tipoRequisitoRepositorio;
@@ -46,7 +45,6 @@ namespace Analista.Repositorios
             _RequisitoRepositorio = requisitoRepositorio;
             _ServicioRepositorio = servicioRepositorio;
             _context = context;
-            _transaction = transaction;
         }
 
         public async Task BeginTransactionAsync()
@@ -56,24 +54,33 @@ namespace Analista.Repositorios
 
         public async Task CommitAsync()
         {
-            await _transaction?.CommitAsync();
-            _transaction?.Dispose();
+            if (_transaction != null)
+            {
+                await _transaction?.CommitAsync();
+                _transaction?.Dispose();
+            }
+            
         }
 
         public void Dispose()
         {
+            _transaction?.Dispose();
             _context.DisposeAsync();
         }
 
-        public async void GuardarCambiosAsync()
+        public async Task GuardarCambiosAsync()
         {
             await _context.SaveChangesAsync();
         }
 
         public async Task RollbackAsync()
         {
-            await _transaction?.RollbackAsync();
-            _transaction?.Dispose();
+            if (_transaction != null)
+            {
+                await _transaction?.RollbackAsync();
+                _transaction?.Dispose();
+            }
         }
+
     }
 }
