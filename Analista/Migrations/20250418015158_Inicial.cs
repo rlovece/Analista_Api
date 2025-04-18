@@ -109,26 +109,24 @@ namespace Analista.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ActoresPorCasosDeUso",
+                name: "ActoresPorCasoDeUso",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdCondicion = table.Column<Guid>(type: "uuid", nullable: false),
                     ActorId = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdCasoDeUso = table.Column<Guid>(type: "uuid", nullable: false)
+                    CasoDeUsoId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ActoresPorCasosDeUso", x => x.Id);
+                    table.PrimaryKey("PK_ActoresPorCasoDeUso", x => new { x.ActorId, x.CasoDeUsoId });
                     table.ForeignKey(
-                        name: "FK_ActoresPorCasosDeUso_Actores_ActorId",
+                        name: "FK_ActoresPorCasoDeUso_Actores_ActorId",
                         column: x => x.ActorId,
                         principalTable: "Actores",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ActoresPorCasosDeUso_CasosDeUso_IdCasoDeUso",
-                        column: x => x.IdCasoDeUso,
+                        name: "FK_ActoresPorCasoDeUso_CasosDeUso_CasoDeUsoId",
+                        column: x => x.CasoDeUsoId,
                         principalTable: "CasosDeUso",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -161,50 +159,48 @@ namespace Analista.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CriteriodDeAceptacionPorCasoDeUso",
+                name: "CriteriosDeAceptacionPorCasoDeUso",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdCriterioDeAceptacion = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdCasoDeUso = table.Column<Guid>(type: "uuid", nullable: false)
+                    CasoDeUsoId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CriterioDeAceptacionId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CriteriodDeAceptacionPorCasoDeUso", x => x.Id);
+                    table.PrimaryKey("PK_CriteriosDeAceptacionPorCasoDeUso", x => new { x.CasoDeUsoId, x.CriterioDeAceptacionId });
                     table.ForeignKey(
-                        name: "FK_CriteriodDeAceptacionPorCasoDeUso_CasosDeUso_IdCasoDeUso",
-                        column: x => x.IdCasoDeUso,
+                        name: "FK_CriteriosDeAceptacionPorCasoDeUso_CasosDeUso_CasoDeUsoId",
+                        column: x => x.CasoDeUsoId,
                         principalTable: "CasosDeUso",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CriteriodDeAceptacionPorCasoDeUso_CriteriosDeAceptacion_IdC~",
-                        column: x => x.IdCriterioDeAceptacion,
+                        name: "FK_CriteriosDeAceptacionPorCasoDeUso_CriteriosDeAceptacion_Cri~",
+                        column: x => x.CriterioDeAceptacionId,
                         principalTable: "CriteriosDeAceptacion",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ServiciosPorCasosDeUso",
+                name: "ServiciosPorCasoDeUso",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdServicio = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdCasoDeUso = table.Column<Guid>(type: "uuid", nullable: false)
+                    CasoDeUsoId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ServicioId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ServiciosPorCasosDeUso", x => x.Id);
+                    table.PrimaryKey("PK_ServiciosPorCasoDeUso", x => new { x.CasoDeUsoId, x.ServicioId });
                     table.ForeignKey(
-                        name: "FK_ServiciosPorCasosDeUso_CasosDeUso_IdCasoDeUso",
-                        column: x => x.IdCasoDeUso,
+                        name: "FK_ServiciosPorCasoDeUso_CasosDeUso_CasoDeUsoId",
+                        column: x => x.CasoDeUsoId,
                         principalTable: "CasosDeUso",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ServiciosPorCasosDeUso_Servicios_IdServicio",
-                        column: x => x.IdServicio,
+                        name: "FK_ServiciosPorCasoDeUso_Servicios_ServicioId",
+                        column: x => x.ServicioId,
                         principalTable: "Servicios",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -242,7 +238,6 @@ namespace Analista.Migrations
                     Orden = table.Column<int>(type: "integer", nullable: false),
                     IdSubTipoRequisito = table.Column<Guid>(type: "uuid", nullable: false),
                     FechaModificacion = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    subTipoRequisitoId = table.Column<Guid>(type: "uuid", nullable: false),
                     Nombre = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
                     FechaCreacion = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Activo = table.Column<bool>(type: "boolean", nullable: false)
@@ -251,33 +246,32 @@ namespace Analista.Migrations
                 {
                     table.PrimaryKey("PK_Requisitos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Requisitos_SubTiposRequisito_subTipoRequisitoId",
-                        column: x => x.subTipoRequisitoId,
+                        name: "FK_Requisitos_SubTiposRequisito_IdSubTipoRequisito",
+                        column: x => x.IdSubTipoRequisito,
                         principalTable: "SubTiposRequisito",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "RequisitosPorCasosDeUso",
+                name: "RequisitosPorCasoDeUso",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdRequisito = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdCasoDeUso = table.Column<Guid>(type: "uuid", nullable: false)
+                    CasoDeUsoId = table.Column<Guid>(type: "uuid", nullable: false),
+                    RequisitoId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RequisitosPorCasosDeUso", x => x.Id);
+                    table.PrimaryKey("PK_RequisitosPorCasoDeUso", x => new { x.CasoDeUsoId, x.RequisitoId });
                     table.ForeignKey(
-                        name: "FK_RequisitosPorCasosDeUso_CasosDeUso_IdCasoDeUso",
-                        column: x => x.IdCasoDeUso,
+                        name: "FK_RequisitosPorCasoDeUso_CasosDeUso_CasoDeUsoId",
+                        column: x => x.CasoDeUsoId,
                         principalTable: "CasosDeUso",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RequisitosPorCasosDeUso_Requisitos_IdRequisito",
-                        column: x => x.IdRequisito,
+                        name: "FK_RequisitosPorCasoDeUso_Requisitos_RequisitoId",
+                        column: x => x.RequisitoId,
                         principalTable: "Requisitos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -293,14 +287,9 @@ namespace Analista.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ActoresPorCasosDeUso_ActorId",
-                table: "ActoresPorCasosDeUso",
-                column: "ActorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ActoresPorCasosDeUso_IdCasoDeUso",
-                table: "ActoresPorCasosDeUso",
-                column: "IdCasoDeUso");
+                name: "IX_ActoresPorCasoDeUso_CasoDeUsoId",
+                table: "ActoresPorCasoDeUso",
+                column: "CasoDeUsoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CondicionesPorCasosDeUso_IdCasoDeUso",
@@ -313,39 +302,24 @@ namespace Analista.Migrations
                 column: "IdCondicion");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CriteriodDeAceptacionPorCasoDeUso_IdCasoDeUso",
-                table: "CriteriodDeAceptacionPorCasoDeUso",
-                column: "IdCasoDeUso");
+                name: "IX_CriteriosDeAceptacionPorCasoDeUso_CriterioDeAceptacionId",
+                table: "CriteriosDeAceptacionPorCasoDeUso",
+                column: "CriterioDeAceptacionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CriteriodDeAceptacionPorCasoDeUso_IdCriterioDeAceptacion",
-                table: "CriteriodDeAceptacionPorCasoDeUso",
-                column: "IdCriterioDeAceptacion");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Requisitos_subTipoRequisitoId",
+                name: "IX_Requisitos_IdSubTipoRequisito",
                 table: "Requisitos",
-                column: "subTipoRequisitoId");
+                column: "IdSubTipoRequisito");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RequisitosPorCasosDeUso_IdCasoDeUso",
-                table: "RequisitosPorCasosDeUso",
-                column: "IdCasoDeUso");
+                name: "IX_RequisitosPorCasoDeUso_RequisitoId",
+                table: "RequisitosPorCasoDeUso",
+                column: "RequisitoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RequisitosPorCasosDeUso_IdRequisito",
-                table: "RequisitosPorCasosDeUso",
-                column: "IdRequisito");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ServiciosPorCasosDeUso_IdCasoDeUso",
-                table: "ServiciosPorCasosDeUso",
-                column: "IdCasoDeUso");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ServiciosPorCasosDeUso_IdServicio",
-                table: "ServiciosPorCasosDeUso",
-                column: "IdServicio");
+                name: "IX_ServiciosPorCasoDeUso_ServicioId",
+                table: "ServiciosPorCasoDeUso",
+                column: "ServicioId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SubTiposRequisito_IdTipoRequisito",
@@ -357,19 +331,19 @@ namespace Analista.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ActoresPorCasosDeUso");
+                name: "ActoresPorCasoDeUso");
 
             migrationBuilder.DropTable(
                 name: "CondicionesPorCasosDeUso");
 
             migrationBuilder.DropTable(
-                name: "CriteriodDeAceptacionPorCasoDeUso");
+                name: "CriteriosDeAceptacionPorCasoDeUso");
 
             migrationBuilder.DropTable(
-                name: "RequisitosPorCasosDeUso");
+                name: "RequisitosPorCasoDeUso");
 
             migrationBuilder.DropTable(
-                name: "ServiciosPorCasosDeUso");
+                name: "ServiciosPorCasoDeUso");
 
             migrationBuilder.DropTable(
                 name: "Actores");

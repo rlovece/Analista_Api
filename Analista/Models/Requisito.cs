@@ -16,7 +16,9 @@ namespace Analista.Models
 
         public DateTime? FechaModificacion { get; set; }
 
-        public virtual SubTipoRequisito subTipoRequisito { get; set; }
+        public virtual SubTipoRequisito SubTipoRequisito { get; set; }
+
+        public virtual ICollection<CasoDeUso> CasoDeUso { get; set; }
 
 
     }

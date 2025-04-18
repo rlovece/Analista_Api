@@ -8,6 +8,6 @@ namespace Analista.Models
     {
 
         [JsonIgnore]
-        public virtual ICollection<ActorPorCasoDeUso> ActorPorCasosDeUso { get; set; }
+        public virtual ICollection<CasoDeUso> CasoDeUso { get; set; }
     }
 }

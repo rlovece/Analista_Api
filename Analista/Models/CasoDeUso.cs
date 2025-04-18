@@ -26,19 +26,19 @@ namespace Analista.Models
         public Boolean Activo { get; set; }
 
         [JsonIgnore]
-        public virtual ICollection<CondicionPorCasoDeUso> CondicionesPorCasoDeUso { get; set; }
+        public virtual ICollection<CondicionPorCasoDeUso> CondicionPorCasoDeUso { get; set; }
 
         [JsonIgnore]
-        public virtual ICollection<CriterioDeAceptacionPorCasoDeUso> CriteriosDeAceptacionPorCasoDeUso { get; set;  }
+        public virtual ICollection<CriterioDeAceptacion> CriterioDeAceptacion { get; set;  }
 
         [JsonIgnore]
-        public virtual ICollection<ActorPorCasoDeUso> ActoresPorCasoDeUso { get; set; }
+        public virtual ICollection<Actor> Actor { get; set; }
 
         [JsonIgnore]
-        public virtual ICollection<ServiciosPorCasoDeUso> ServiciosPorCasoDeUso { get; set; }
+        public virtual ICollection<Servicio> Servicio { get; set; }
 
         [JsonIgnore]
-        public virtual ICollection<RequisitoPorCasoDeUso> RequisitoPorCasoDeUso { get; set; }
+        public virtual ICollection<Requisito> Requisito { get; set; }
 
 
     }

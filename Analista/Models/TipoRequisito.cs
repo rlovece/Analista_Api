@@ -13,6 +13,6 @@ namespace Analista.Models
         public DateTime? FechaModificacion { get; set; }
 
         [JsonIgnore]
-        public virtual ICollection<SubTipoRequisito> SubTiposRequisitos { get; set; }
+        public virtual ICollection<SubTipoRequisito> SubTipoRequisito { get; set; }
     }
 }

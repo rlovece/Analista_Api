@@ -20,6 +20,6 @@ namespace Analista.Models
         public virtual TipoRequisito TipoRequisito { get; set; }
 
         [JsonIgnore]
-        public virtual ICollection<Requisito> Requisitos { get; set; }
+        public virtual ICollection<Requisito> Requisito { get; set; }
     }
 }

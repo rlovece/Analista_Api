@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Analista.Migrations
 {
     [DbContext(typeof(MiDbContext))]
-    [Migration("20250414164052_Inicial")]
+    [Migration("20250418015158_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -24,6 +24,21 @@ namespace Analista.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("ActorCasoDeUso", b =>
+                {
+                    b.Property<Guid>("ActorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CasoDeUsoId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("ActorId", "CasoDeUsoId");
+
+                    b.HasIndex("CasoDeUsoId");
+
+                    b.ToTable("ActoresPorCasoDeUso", (string)null);
+                });
 
             modelBuilder.Entity("Analista.Models.Actor", b =>
                 {
@@ -44,31 +59,7 @@ namespace Analista.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Actores");
-                });
-
-            modelBuilder.Entity("Analista.Models.ActorPorCasoDeUso", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ActorId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("IdCasoDeUso")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("IdCondicion")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ActorId");
-
-                    b.HasIndex("IdCasoDeUso");
-
-                    b.ToTable("ActoresPorCasosDeUso");
+                    b.ToTable("Actores", (string)null);
                 });
 
             modelBuilder.Entity("Analista.Models.CasoDeUso", b =>
@@ -100,7 +91,7 @@ namespace Analista.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CasosDeUso");
+                    b.ToTable("CasosDeUso", (string)null);
                 });
 
             modelBuilder.Entity("Analista.Models.Condicion", b =>
@@ -129,7 +120,7 @@ namespace Analista.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Condiciones");
+                    b.ToTable("Condiciones", (string)null);
                 });
 
             modelBuilder.Entity("Analista.Models.CondicionPorCasoDeUso", b =>
@@ -153,7 +144,7 @@ namespace Analista.Migrations
 
                     b.HasIndex("IdCondicion");
 
-                    b.ToTable("CondicionesPorCasosDeUso");
+                    b.ToTable("CondicionesPorCasosDeUso", (string)null);
                 });
 
             modelBuilder.Entity("Analista.Models.CriterioDeAceptacion", b =>
@@ -182,28 +173,7 @@ namespace Analista.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CriteriosDeAceptacion");
-                });
-
-            modelBuilder.Entity("Analista.Models.CriterioDeAceptacionPorCasoDeUso", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("IdCasoDeUso")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("IdCriterioDeAceptacion")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdCasoDeUso");
-
-                    b.HasIndex("IdCriterioDeAceptacion");
-
-                    b.ToTable("CriteriodDeAceptacionPorCasoDeUso");
+                    b.ToTable("CriteriosDeAceptacion", (string)null);
                 });
 
             modelBuilder.Entity("Analista.Models.Requisito", b =>
@@ -236,35 +206,11 @@ namespace Analista.Migrations
                     b.Property<int>("Orden")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("subTipoRequisitoId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("subTipoRequisitoId");
+                    b.HasIndex("IdSubTipoRequisito");
 
-                    b.ToTable("Requisitos");
-                });
-
-            modelBuilder.Entity("Analista.Models.RequisitoPorCasoDeUso", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("IdCasoDeUso")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("IdRequisito")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdCasoDeUso");
-
-                    b.HasIndex("IdRequisito");
-
-                    b.ToTable("RequisitosPorCasosDeUso");
+                    b.ToTable("Requisitos", (string)null);
                 });
 
             modelBuilder.Entity("Analista.Models.Servicio", b =>
@@ -293,28 +239,7 @@ namespace Analista.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Servicios");
-                });
-
-            modelBuilder.Entity("Analista.Models.ServiciosPorCasoDeUso", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("IdCasoDeUso")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("IdServicio")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdCasoDeUso");
-
-                    b.HasIndex("IdServicio");
-
-                    b.ToTable("ServiciosPorCasosDeUso");
+                    b.ToTable("Servicios", (string)null);
                 });
 
             modelBuilder.Entity("Analista.Models.SubTipoRequisito", b =>
@@ -347,7 +272,7 @@ namespace Analista.Migrations
 
                     b.HasIndex("IdTipoRequisito");
 
-                    b.ToTable("SubTiposRequisito");
+                    b.ToTable("SubTiposRequisito", (string)null);
                 });
 
             modelBuilder.Entity("Analista.Models.TipoRequisito", b =>
@@ -375,7 +300,7 @@ namespace Analista.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TiposRequisito");
+                    b.ToTable("TiposRequisito", (string)null);
 
                     b.HasData(
                         new
@@ -396,29 +321,70 @@ namespace Analista.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Analista.Models.ActorPorCasoDeUso", b =>
+            modelBuilder.Entity("CasoDeUsoCriterioDeAceptacion", b =>
                 {
-                    b.HasOne("Analista.Models.Actor", "Actor")
-                        .WithMany("ActorPorCasosDeUso")
+                    b.Property<Guid>("CasoDeUsoId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CriterioDeAceptacionId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("CasoDeUsoId", "CriterioDeAceptacionId");
+
+                    b.HasIndex("CriterioDeAceptacionId");
+
+                    b.ToTable("CriteriosDeAceptacionPorCasoDeUso", (string)null);
+                });
+
+            modelBuilder.Entity("CasoDeUsoRequisito", b =>
+                {
+                    b.Property<Guid>("CasoDeUsoId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("RequisitoId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("CasoDeUsoId", "RequisitoId");
+
+                    b.HasIndex("RequisitoId");
+
+                    b.ToTable("RequisitosPorCasoDeUso", (string)null);
+                });
+
+            modelBuilder.Entity("CasoDeUsoServicio", b =>
+                {
+                    b.Property<Guid>("CasoDeUsoId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ServicioId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("CasoDeUsoId", "ServicioId");
+
+                    b.HasIndex("ServicioId");
+
+                    b.ToTable("ServiciosPorCasoDeUso", (string)null);
+                });
+
+            modelBuilder.Entity("ActorCasoDeUso", b =>
+                {
+                    b.HasOne("Analista.Models.Actor", null)
+                        .WithMany()
                         .HasForeignKey("ActorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Analista.Models.CasoDeUso", "CasoDeUso")
-                        .WithMany("ActoresPorCasoDeUso")
-                        .HasForeignKey("IdCasoDeUso")
+                    b.HasOne("Analista.Models.CasoDeUso", null)
+                        .WithMany()
+                        .HasForeignKey("CasoDeUsoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Actor");
-
-                    b.Navigation("CasoDeUso");
                 });
 
             modelBuilder.Entity("Analista.Models.CondicionPorCasoDeUso", b =>
                 {
                     b.HasOne("Analista.Models.CasoDeUso", "CasoDeUso")
-                        .WithMany("CondicionesPorCasoDeUso")
+                        .WithMany("CondicionPorCasoDeUso")
                         .HasForeignKey("IdCasoDeUso")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -434,78 +400,21 @@ namespace Analista.Migrations
                     b.Navigation("Condicion");
                 });
 
-            modelBuilder.Entity("Analista.Models.CriterioDeAceptacionPorCasoDeUso", b =>
-                {
-                    b.HasOne("Analista.Models.CasoDeUso", "CasoDeUso")
-                        .WithMany("CriteriosDeAceptacionPorCasoDeUso")
-                        .HasForeignKey("IdCasoDeUso")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Analista.Models.CriterioDeAceptacion", "CriterioDeAceptacion")
-                        .WithMany("CriterioDeAceptacionPorCasoDeUsos")
-                        .HasForeignKey("IdCriterioDeAceptacion")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CasoDeUso");
-
-                    b.Navigation("CriterioDeAceptacion");
-                });
-
             modelBuilder.Entity("Analista.Models.Requisito", b =>
                 {
-                    b.HasOne("Analista.Models.SubTipoRequisito", "subTipoRequisito")
-                        .WithMany("Requisitos")
-                        .HasForeignKey("subTipoRequisitoId")
+                    b.HasOne("Analista.Models.SubTipoRequisito", "SubTipoRequisito")
+                        .WithMany("Requisito")
+                        .HasForeignKey("IdSubTipoRequisito")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("subTipoRequisito");
-                });
-
-            modelBuilder.Entity("Analista.Models.RequisitoPorCasoDeUso", b =>
-                {
-                    b.HasOne("Analista.Models.CasoDeUso", "CasoDeUso")
-                        .WithMany("RequisitoPorCasoDeUso")
-                        .HasForeignKey("IdCasoDeUso")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Analista.Models.Requisito", "Requisito")
-                        .WithMany()
-                        .HasForeignKey("IdRequisito")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CasoDeUso");
-
-                    b.Navigation("Requisito");
-                });
-
-            modelBuilder.Entity("Analista.Models.ServiciosPorCasoDeUso", b =>
-                {
-                    b.HasOne("Analista.Models.CasoDeUso", "CasoDeUso")
-                        .WithMany("ServiciosPorCasoDeUso")
-                        .HasForeignKey("IdCasoDeUso")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Analista.Models.Servicio", "Servicio")
-                        .WithMany("serviciosPorCasoDeUso")
-                        .HasForeignKey("IdServicio")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CasoDeUso");
-
-                    b.Navigation("Servicio");
+                    b.Navigation("SubTipoRequisito");
                 });
 
             modelBuilder.Entity("Analista.Models.SubTipoRequisito", b =>
                 {
                     b.HasOne("Analista.Models.TipoRequisito", "TipoRequisito")
-                        .WithMany("SubTiposRequisitos")
+                        .WithMany("SubTipoRequisito")
                         .HasForeignKey("IdTipoRequisito")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -513,22 +422,54 @@ namespace Analista.Migrations
                     b.Navigation("TipoRequisito");
                 });
 
-            modelBuilder.Entity("Analista.Models.Actor", b =>
+            modelBuilder.Entity("CasoDeUsoCriterioDeAceptacion", b =>
                 {
-                    b.Navigation("ActorPorCasosDeUso");
+                    b.HasOne("Analista.Models.CasoDeUso", null)
+                        .WithMany()
+                        .HasForeignKey("CasoDeUsoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Analista.Models.CriterioDeAceptacion", null)
+                        .WithMany()
+                        .HasForeignKey("CriterioDeAceptacionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CasoDeUsoRequisito", b =>
+                {
+                    b.HasOne("Analista.Models.CasoDeUso", null)
+                        .WithMany()
+                        .HasForeignKey("CasoDeUsoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Analista.Models.Requisito", null)
+                        .WithMany()
+                        .HasForeignKey("RequisitoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CasoDeUsoServicio", b =>
+                {
+                    b.HasOne("Analista.Models.CasoDeUso", null)
+                        .WithMany()
+                        .HasForeignKey("CasoDeUsoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Analista.Models.Servicio", null)
+                        .WithMany()
+                        .HasForeignKey("ServicioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Analista.Models.CasoDeUso", b =>
                 {
-                    b.Navigation("ActoresPorCasoDeUso");
-
-                    b.Navigation("CondicionesPorCasoDeUso");
-
-                    b.Navigation("CriteriosDeAceptacionPorCasoDeUso");
-
-                    b.Navigation("RequisitoPorCasoDeUso");
-
-                    b.Navigation("ServiciosPorCasoDeUso");
+                    b.Navigation("CondicionPorCasoDeUso");
                 });
 
             modelBuilder.Entity("Analista.Models.Condicion", b =>
@@ -536,24 +477,14 @@ namespace Analista.Migrations
                     b.Navigation("CondicionPorCasoDeUso");
                 });
 
-            modelBuilder.Entity("Analista.Models.CriterioDeAceptacion", b =>
-                {
-                    b.Navigation("CriterioDeAceptacionPorCasoDeUsos");
-                });
-
-            modelBuilder.Entity("Analista.Models.Servicio", b =>
-                {
-                    b.Navigation("serviciosPorCasoDeUso");
-                });
-
             modelBuilder.Entity("Analista.Models.SubTipoRequisito", b =>
                 {
-                    b.Navigation("Requisitos");
+                    b.Navigation("Requisito");
                 });
 
             modelBuilder.Entity("Analista.Models.TipoRequisito", b =>
                 {
-                    b.Navigation("SubTiposRequisitos");
+                    b.Navigation("SubTipoRequisito");
                 });
 #pragma warning restore 612, 618
         }

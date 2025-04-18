@@ -12,6 +12,6 @@ namespace Analista.Models
         public DateTime? FechaModificacion { get; set; }
 
         [JsonIgnore]
-        public virtual ICollection<ServiciosPorCasoDeUso> serviciosPorCasoDeUso { get; set; }
+        public virtual ICollection<CasoDeUso> CasoDeUso { get; set; }
     }
 }

@@ -13,6 +13,6 @@ namespace Analista.Models
 
 
         [JsonIgnore]
-        public virtual ICollection<CriterioDeAceptacionPorCasoDeUso> CriterioDeAceptacionPorCasoDeUsos { get; set; }
+        public virtual ICollection<CasoDeUso> CasoDeUso { get; set; }
     }
 }
