@@ -41,5 +41,10 @@ namespace Analista.Repositorios
         {
             _context.Update(entity);
         }
+
+        Task<Condicion> IRepositorio<Condicion>.GetByNombreAsync(string nombre)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

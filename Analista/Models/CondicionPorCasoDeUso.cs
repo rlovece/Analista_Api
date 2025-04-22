@@ -2,7 +2,7 @@
 
 namespace Analista.Models
 {
-    public class CondicionPorCasoDeUso : ComponentePorCasoDeUso
+    public class CondicionPorCasoDeUso : ComponentePorCasoDeUsoDTO
     {
 
         [ForeignKey("Condicion")]

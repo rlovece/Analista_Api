@@ -147,8 +147,6 @@ namespace Analista.Persintencia
                 e.Property(e => e.Nombre)
                       .IsRequired()
                       .HasMaxLength(150);
-                e.Property(e => e.FechaCreacion)
-                      .IsRequired();
             });
 
             modelBuilder.Entity<TipoRequisito>()

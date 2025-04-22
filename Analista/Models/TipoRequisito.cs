@@ -9,10 +9,9 @@ namespace Analista.Models
 
         public int Orden { get; set; }
 
-
         public DateTime? FechaModificacion { get; set; }
 
         [JsonIgnore]
-        public virtual ICollection<SubTipoRequisito> SubTipoRequisito { get; set; }
+        public virtual ICollection<SubTipoRequisito>? SubTipoRequisito { get; set; }
     }
 }

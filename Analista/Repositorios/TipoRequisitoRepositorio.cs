@@ -31,15 +31,20 @@ namespace Analista.Repositorios
             return await _context.TiposRequisito.ToListAsync();
         }
 
-        public async Task<TipoRequisito?> GetByIdAsync(Guid id)
-        {
-            return await _context.TiposRequisito.FindAsync(id);
-        }
-
 
         public void Update(TipoRequisito entity)
         {
             _context.Update(entity);
+        }
+
+        public async Task<TipoRequisito?> GetByIdAsync(Guid id)
+        {
+            return await _context.TiposRequisito.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<TipoRequisito?> GetByNombreAsync(String nombre)
+        {
+            return await _context.TiposRequisito.FirstOrDefaultAsync(x => x.Nombre == nombre);
         }
     }
 }

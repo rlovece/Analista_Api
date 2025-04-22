@@ -2,7 +2,7 @@
 
 namespace Analista.Models
 {
-    public abstract class ComponentePorCasoDeUso
+    public abstract class ComponentePorCasoDeUsoDTO
     {
         public Guid Id { get; set; }
 

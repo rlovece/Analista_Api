@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Analista.Models;
-using Analista.Persintencia;
 using Analista.Services.Interfaces;
+using Analista.Enums;
 
 namespace Analista.Controllers
 {
@@ -22,6 +17,17 @@ namespace Analista.Controllers
             _TipoDeRequisitoService = tipoRequisitoService;
         }
 
+        // Helper para crear respuestas estandarizadas
+        private IActionResult Respuesta<T>(int status, string mensaje, T data)
+        {
+            return StatusCode(status, new ApiResponse<T>
+            {
+                Status = status,
+                Mensaje = mensaje,
+                Data = data
+            });
+        }
+
 
         /// <summary>
         /// Obtiene todos los tipos de requisito disponibles.
@@ -34,91 +40,175 @@ namespace Analista.Controllers
         /// <response code="200">La lista de Tipos de Requisitos fue obtenida exitosamente.</response>
         /// <response code="500">Error interno del servidor.</response>
         [HttpGet]
-        [ProducesResponseType(typeof(List<TipoRequisito>), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<TipoRequisito>>> GetTiposRequisito()
+        [ProducesResponseType(typeof(ApiResponse<List<TipoRequisito>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetTiposRequisito()
         {
-            return await _TipoDeRequisitoService.GetAllAsync();
+            try
+            {
+                var data = await _TipoDeRequisitoService.GetAllAsync();
+                return Respuesta<List<TipoRequisito>>(200, "Lista obtenida exitosamente", data);
+            }
+            catch (Exception ex)
+            {
+                return Respuesta<string>(500, $"Error interno del servidor: {ex.Message}", null);
+            }
+            
         }
 
-        /*
-        // GET: api/TipoRequisito/5
+
+        /// <summary>
+        /// Obtiene un Tipo de Requisito según el id.
+        /// </summary>
+        /// <remarks>
+        /// Este endpoint retorna Tipo de Requisito según el id.
+        /// </remarks>
+        /// <returns>Un objeto que representa un Tipo de Requisito.</returns>
+        /// <response code="200">El Tipo de Requisito fue obtenido exitosamente.</response>
+        /// <response code="404">Tipo de Requisito no encontrado</response>
+        /// <response code="500">Error interno del servidor.</response>
         [HttpGet("{id}")]
-        public async Task<ActionResult<TipoRequisito>> GetTipoRequisito(Guid id)
+        [ProducesResponseType(typeof(ApiResponse<TipoRequisito>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetTipoRequisito(Guid id)
         {
-            var tipoRequisito = await _context.TiposRequisito.FindAsync(id);
-
-            if (tipoRequisito == null)
-            {
-                return NotFound();
-            }
-
-            return tipoRequisito;
-        }
-
-        // PUT: api/TipoRequisito/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutTipoRequisito(Guid id, TipoRequisito tipoRequisito)
-        {
-            if (id != tipoRequisito.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(tipoRequisito).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
+                var tipoRequisito = await _TipoDeRequisitoService.GetByIdAsync(id);
+
+                return Respuesta<TipoRequisito>(200, "Tipo de requisito no encontrado", tipoRequisito);
+            } catch (Exception ex)
             {
-                if (!TipoRequisitoExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return Respuesta<String>(500, $"Error interno del servidor: {ex.Message}", null);
+            }
+            
+        }
+
+
+        // PATCH: api/TipoRequisito/5
+        /// <summary>
+        /// Modifica un Tipo de Requisito según el id.
+        /// </summary>
+        /// <remarks>
+        /// Este endpoint permite modificar un Tipo de Requisito existente en el sistema. Los datos posibles de modificar son: Nombre e indicador de estado Activo.
+        /// </remarks>
+        /// <returns>Se retorna mensaje de éxito o exceptión </returns>
+        /// <response code="200">El Tipo de Requisito actualizado exitosamente.</response>
+        /// <response code="404">Id no encontrado</response>
+        /// <response code="400">Tipo de Requisito no válido</response>
+        /// <response code="500">Error interno del servidor.</response>
+        /// 
+        [HttpPatch("{id}")]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> PatchTipoRequisito(Guid id,[FromBody] TipoRequisitoDTO tipoRequisito)
+        {
+
+            if (id != tipoRequisito.Id)
+            {
+                return  Respuesta<string>(404, "Id no corresponde", null);
             }
 
-            return NoContent();
+            // Actualizar el Tipo de Requisito
+            try
+
+            {
+                var actualizado = await _TipoDeRequisitoService.UpdateAsync(id, tipoRequisito);
+                if (!actualizado)
+                {
+                    return Respuesta<string>(404, "Tipo de requisito no encontrado", null);
+                }
+                return Respuesta<string>(200, "Tipo de requisito actualizado exitosamente", null);
+                
+            }catch (Exception ex)
+            {
+                return Respuesta<string>(500, $"Error interno del servidor: {ex.Message}", null);
+            }
         }
+
 
         // POST: api/TipoRequisito
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Crea un Tipo de Requisito
+        /// </summary>
+        /// <remarks>
+        /// Este endpoint permite la creación de un nuevo Tipo de Requisito
+        /// </remarks>
+        /// <returns>Se retorna mensaje de éxito o exceptión </returns>
+        /// <response code="201">El Tipo de Requisito creado exitosamente.</response>
+        /// <response code="400">Tipo de Requisito no válido</response>
+        /// <response code="500">Error interno del servidor.</response>
+        /// 
         [HttpPost]
-        public async Task<ActionResult<TipoRequisito>> PostTipoRequisito(TipoRequisito tipoRequisito)
+        [ProducesResponseType(typeof(ApiResponse<TipoRequisito>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> PostTipoRequisito(TipoRequisitoDTO tipoRequisito)
         {
-            _context.TiposRequisito.Add(tipoRequisito);
-            await _context.SaveChangesAsync();
+            try
+            {
+                TipoRequisito nuevoTipo = await _TipoDeRequisitoService.CreateAsync(tipoRequisito);
 
-            return CreatedAtAction("GetTipoRequisito", new { id = tipoRequisito.Id }, tipoRequisito);
+                return Respuesta<TipoRequisito>(201, "Tipo de requisito creado exitosamente", nuevoTipo);
+            }
+            catch (Exception ex)
+            {
+                if (ex.Equals("Ya existe un Tipo de Requisito con ese nombre."))
+                {
+                    Console.WriteLine(ex);
+                    return Respuesta<string>(400, "Ya existe un Tipo de Requisito con ese nombre.", null);
+                }
+                return Respuesta<string>(500, $"Error interno del servidor: {ex.Message}", null);
+            }
+            
         }
 
+
         // DELETE: api/TipoRequisito/5
+        /// <summary>
+        /// Elimina lógicamente un Tipo de Requisito según el id.
+        /// </summary>
+        /// <remarks>
+        /// Este endpoint permite la eliminación lógica de un nuevo Tipo de Requisito por su id, siempre que éxista.
+        /// </remarks>
+        /// <returns>Se retorna mensaje de éxito o exceptión </returns>
+        /// <response code="200">El Tipo de Requisito eliminado exitosamente.</response>
+        /// <response code="404">Tipo de Requisito no encontrado</response>
+        /// <response code="410">Tipo de Requisito ya eliminado</response>
+        /// <response code="500">Error interno del servidor.</response>
+        /// 
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status410Gone)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status500InternalServerError)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTipoRequisito(Guid id)
         {
-            var tipoRequisito = await _context.TiposRequisito.FindAsync(id);
-            if (tipoRequisito == null)
+            try
             {
-                return NotFound();
+                if (await _TipoDeRequisitoService.DeleteAsync(id) == ResultadoEliminacion.Exito)
+                {
+                    return Respuesta<string>(200, "Tipo de requisito eliminado exitosamente", null);
+                }
+                else if (await _TipoDeRequisitoService.DeleteAsync(id) == ResultadoEliminacion.NoEncontrado)
+                {
+                    return Respuesta<string>(404, "Tipo de requisito no encontrado", null);
+                }
+                else 
+                {
+                    return Respuesta<string>(410, "Tipo de requisito ya eliminado", null);
+                }
+
+            }catch(Exception ex)
+            {
+                                                                       
+                return Respuesta<string>(500, $"Error interno del servidor: {ex.Message}", null);
             }
-
-            _context.TiposRequisito.Remove(tipoRequisito);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
-
-        private bool TipoRequisitoExists(Guid id)
-        {
-            return _context.TiposRequisito.Any(e => e.Id == id);
-        }
-        */
+        
     }
 }
