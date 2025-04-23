@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Analista.Models;
 using Analista.Services.Interfaces;
-using Analista.Enums;
+using Analista.Utilidades.Enums;
+using Analista.Utilidades.Helpers;
+using Analista.DTOs.Response;
 
 namespace Analista.Controllers
 {
@@ -15,17 +17,6 @@ namespace Analista.Controllers
         public TipoRequisitoController(ITipoRequisitoService tipoRequisitoService)
         {
             _TipoDeRequisitoService = tipoRequisitoService;
-        }
-
-        // Helper para crear respuestas estandarizadas
-        private IActionResult Respuesta<T>(int status, string mensaje, T data)
-        {
-            return StatusCode(status, new ApiResponse<T>
-            {
-                Status = status,
-                Mensaje = mensaje,
-                Data = data
-            });
         }
 
 
@@ -47,16 +38,16 @@ namespace Analista.Controllers
             try
             {
                 var data = await _TipoDeRequisitoService.GetAllAsync();
-                return Respuesta<List<TipoRequisito>>(200, "Lista obtenida exitosamente", data);
+                return ApiResponseHelper.CrearRespuesta(200, "Lista obtenida exitosamente", data);
             }
             catch (Exception ex)
             {
-                return Respuesta<string>(500, $"Error interno del servidor: {ex.Message}", null);
+                return ApiResponseHelper.CrearRespuesta(500, $"Error interno del servidor: {ex.Message}", (String?)null);
             }
             
         }
 
-
+        // GET: api/TipoRequisitoes/5
         /// <summary>
         /// Obtiene un Tipo de Requisito según el id.
         /// </summary>
@@ -78,10 +69,10 @@ namespace Analista.Controllers
             {
                 var tipoRequisito = await _TipoDeRequisitoService.GetByIdAsync(id);
 
-                return Respuesta<TipoRequisito>(200, "Tipo de requisito no encontrado", tipoRequisito);
+                return ApiResponseHelper.CrearRespuesta(200, "Tipo de requisito no encontrado", tipoRequisito);
             } catch (Exception ex)
             {
-                return Respuesta<String>(500, $"Error interno del servidor: {ex.Message}", null);
+                return ApiResponseHelper.CrearRespuesta<string>(500, $"Error interno del servidor: {ex.Message}", null);
             }
             
         }
@@ -110,7 +101,7 @@ namespace Analista.Controllers
 
             if (id != tipoRequisito.Id)
             {
-                return  Respuesta<string>(404, "Id no corresponde", null);
+                return ApiResponseHelper.CrearRespuesta<string>(404, "Id no corresponde", null);
             }
 
             // Actualizar el Tipo de Requisito
@@ -120,13 +111,13 @@ namespace Analista.Controllers
                 var actualizado = await _TipoDeRequisitoService.UpdateAsync(id, tipoRequisito);
                 if (!actualizado)
                 {
-                    return Respuesta<string>(404, "Tipo de requisito no encontrado", null);
+                    return ApiResponseHelper.CrearRespuesta<string>(404, "Tipo de requisito no encontrado", null);
                 }
-                return Respuesta<string>(200, "Tipo de requisito actualizado exitosamente", null);
+                return ApiResponseHelper.CrearRespuesta<string>(200, "Tipo de requisito actualizado exitosamente", null);
                 
             }catch (Exception ex)
             {
-                return Respuesta<string>(500, $"Error interno del servidor: {ex.Message}", null);
+                return ApiResponseHelper.CrearRespuesta<string>(500, $"Error interno del servidor: {ex.Message}", null);
             }
         }
 
@@ -153,16 +144,16 @@ namespace Analista.Controllers
             {
                 TipoRequisito nuevoTipo = await _TipoDeRequisitoService.CreateAsync(tipoRequisito);
 
-                return Respuesta<TipoRequisito>(201, "Tipo de requisito creado exitosamente", nuevoTipo);
+                return ApiResponseHelper.CrearRespuesta(201, "Tipo de requisito creado exitosamente", nuevoTipo);
             }
             catch (Exception ex)
             {
                 if (ex.Equals("Ya existe un Tipo de Requisito con ese nombre."))
                 {
                     Console.WriteLine(ex);
-                    return Respuesta<string>(400, "Ya existe un Tipo de Requisito con ese nombre.", null);
+                    return ApiResponseHelper.CrearRespuesta<string>(400, "Ya existe un Tipo de Requisito con ese nombre.", null);
                 }
-                return Respuesta<string>(500, $"Error interno del servidor: {ex.Message}", null);
+                return ApiResponseHelper.CrearRespuesta<string>(500, $"Error interno del servidor: {ex.Message}", null);
             }
             
         }
@@ -192,21 +183,21 @@ namespace Analista.Controllers
             {
                 if (await _TipoDeRequisitoService.DeleteAsync(id) == ResultadoEliminacion.Exito)
                 {
-                    return Respuesta<string>(200, "Tipo de requisito eliminado exitosamente", null);
+                    return ApiResponseHelper.CrearRespuesta<string>(200, "Tipo de requisito eliminado exitosamente", null);
                 }
                 else if (await _TipoDeRequisitoService.DeleteAsync(id) == ResultadoEliminacion.NoEncontrado)
                 {
-                    return Respuesta<string>(404, "Tipo de requisito no encontrado", null);
+                    return ApiResponseHelper.CrearRespuesta<string>(404, "Tipo de requisito no encontrado", null);
                 }
                 else 
                 {
-                    return Respuesta<string>(410, "Tipo de requisito ya eliminado", null);
+                    return ApiResponseHelper.CrearRespuesta<string>(410, "Tipo de requisito ya eliminado", null);
                 }
 
             }catch(Exception ex)
             {
                                                                        
-                return Respuesta<string>(500, $"Error interno del servidor: {ex.Message}", null);
+                return ApiResponseHelper.CrearRespuesta<string>(500, $"Error interno del servidor: {ex.Message}", null);
             }
         }
         

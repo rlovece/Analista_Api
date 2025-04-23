@@ -4,3 +4,4 @@
 2025-04-19 11:51:14 | The method or operation is not implemented. 
 2025-04-21 23:21:06 | Specified method is not supported. The unsupported member type is located on type 'System.Int64'. Path: $.data.Length.
 2025-04-21 23:21:46 | Specified method is not supported. The unsupported member type is located on type 'System.Int64'. Path: $.data.Length.
+2025-04-22 23:24:01 | Unable to resolve service for type 'Analista.Services.Interfaces.ISubTipoRequisitoService' while attempting to activate 'Analista.Controllers.SubTipoRequisitosController'.

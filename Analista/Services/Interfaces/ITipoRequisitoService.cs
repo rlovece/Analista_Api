@@ -1,5 +1,5 @@
-﻿using Analista.Enums;
-using Analista.Models;
+﻿using Analista.Models;
+using Analista.Utilidades.Enums;
 
 namespace Analista.Services.Interfaces
 {

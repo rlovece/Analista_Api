@@ -1,7 +1,7 @@
-﻿using Analista.Enums;
-using Analista.Models;
+﻿using Analista.Models;
 using Analista.Repositorios.Interfaces;
 using Analista.Services.Interfaces;
+using Analista.Utilidades.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Analista.Services

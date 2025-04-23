@@ -28,12 +28,16 @@ namespace Analista.Repositorios
 
         public async Task<List<SubTipoRequisito>> GetAllAsync()
         {
-            return await _context.SubTiposRequisito.ToListAsync();
+            return await _context.SubTiposRequisito
+                .Include(s => s.TipoRequisito)
+                .ToListAsync();
         }
 
         public async Task<SubTipoRequisito?> GetByIdAsync(Guid id)
         {
-            return await _context.SubTiposRequisito.FindAsync(id);
+            return await _context.SubTiposRequisito
+                .Include(s => s.TipoRequisito)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
 
@@ -42,9 +46,11 @@ namespace Analista.Repositorios
             _context.Update(entity);
         }
 
-        Task<SubTipoRequisito> IRepositorio<SubTipoRequisito>.GetByNombreAsync(string nombre)
+        public async Task<SubTipoRequisito?> GetByNombreAsync(String nombre)
         {
-            throw new NotImplementedException();
+            return await _context.SubTiposRequisito
+                .Include(s => s.TipoRequisito)
+                .FirstOrDefaultAsync(x => x.Nombre == nombre);
         }
     }
 }

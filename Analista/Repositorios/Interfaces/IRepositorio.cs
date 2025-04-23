@@ -11,6 +11,6 @@ namespace Analista.Repositorios.Interfaces
 
         // void Delete(T entity); Se utiliza borrado lógico.
         Task<bool> ExistsAsync(Guid id);
-        Task<T> GetByNombreAsync(String nombre);
+        Task<T?> GetByNombreAsync(String nombre);
     }
 }

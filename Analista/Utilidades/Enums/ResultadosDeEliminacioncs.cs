@@ -1,4 +1,4 @@
-﻿namespace Analista.Enums
+﻿namespace Analista.Utilidades.Enums
 {
     public enum ResultadoEliminacion
     {

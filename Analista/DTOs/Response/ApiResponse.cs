@@ -1,4 +1,4 @@
-﻿namespace Analista.Controllers
+﻿namespace Analista.DTOs.Response
 {
     /// <summary>
     /// Representa una Respuesta estandar de la Api
@@ -19,7 +19,7 @@
         /// <summary>
         /// Datos de la respuesta
         /// </summary>
-        public T Data { get; set; }
+        public T? Data { get; set; }
 
     }
 }

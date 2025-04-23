@@ -42,6 +42,8 @@ builder.Services.AddScoped<IUnidadDeTrabajo, UnidadDeTrabajo>();
 
 // Servicios
 builder.Services.AddScoped<ITipoRequisitoService, TipoRequisitoService>();
+builder.Services.AddScoped<ISubTipoRequisitoService, SubTipoRequisitoService>();
+
 
 // Add services to the container.
 

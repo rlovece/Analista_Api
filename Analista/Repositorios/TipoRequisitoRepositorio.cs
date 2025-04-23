@@ -42,7 +42,7 @@ namespace Analista.Repositorios
             return await _context.TiposRequisito.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<TipoRequisito?> GetByNombreAsync(String nombre)
+        public async Task<TipoRequisito?> GetByNombreAsync(string nombre)
         {
             return await _context.TiposRequisito.FirstOrDefaultAsync(x => x.Nombre == nombre);
         }
